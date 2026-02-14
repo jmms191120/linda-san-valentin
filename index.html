@@ -36,8 +36,8 @@ body{
 /* CONTENIDO */
 .container{
     position:relative;
-    z-index:2;
-    margin-top:80px;
+    z-index:3;
+    margin-top:60px;
     padding:20px;
     animation:fadeIn 2s ease-in;
 }
@@ -74,41 +74,39 @@ p{
     margin-top:30px;
     display:flex;
     justify-content:center;
-    gap:20px;
+    gap:15px;
 }
 
 .time-box{
     background: rgba(255,255,255,0.08);
     backdrop-filter: blur(10px);
-    padding:15px 20px;
+    padding:12px 18px;
     border-radius:15px;
     text-align:center;
     box-shadow:0 0 15px rgba(255,46,99,0.4);
-    min-width:70px;
 }
 
 .time-box span{
     display:block;
-    font-size:28px;
+    font-size:24px;
     font-weight:600;
     color:#ff8fab;
 }
 
 .time-box small{
-    font-size:12px;
-    letter-spacing:1px;
+    font-size:11px;
 }
 
 /* BOTONES */
 .buttons{
     margin-top:40px;
     position:relative;
-    height:200px;
+    height:180px;
 }
 
 button{
-    padding:15px 40px;
-    font-size:18px;
+    padding:14px 35px;
+    font-size:17px;
     border:none;
     border-radius:50px;
     cursor:pointer;
@@ -134,12 +132,29 @@ button:hover{
     transform:scale(1.1);
 }
 
-/* OLAS */
-.wave{
+/* OLA INTERACTIVA */
+.wave-container{
     position:absolute;
     bottom:0;
     width:100%;
+    height:300px;
+    overflow:hidden;
     z-index:1;
+}
+
+.wave{
+    position:absolute;
+    width:200%;
+    height:100%;
+    background:linear-gradient(to top,#003566,#0077b6,#00b4d8);
+    border-radius:45%;
+    animation:waveMove 8s linear infinite;
+    transition:transform 0.3s ease;
+}
+
+@keyframes waveMove{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
 }
 
 /* CORAZONES */
@@ -170,29 +185,16 @@ button:hover{
     <h1>🌊 Linda 💙</h1>
 
     <p>
-        Desde que llegaste a mi vida, cada día se siente como 
-        encontrar la ola perfecta al atardecer 🌅  
-        Y este 14 de febrero no quiero surfear solo…
-        quiero que nuestras almas fluyan como el océano.
+        Desde que llegaste, mi vida se mueve como el mar…  
+        intensa, hermosa y llena de magia 🌅  
+        Este 14 de febrero quiero que surfeemos nuestra propia historia.
     </p>
 
     <div class="countdown">
-        <div class="time-box">
-            <span id="days">00</span>
-            <small>Días</small>
-        </div>
-        <div class="time-box">
-            <span id="hours">00</span>
-            <small>Horas</small>
-        </div>
-        <div class="time-box">
-            <span id="minutes">00</span>
-            <small>Min</small>
-        </div>
-        <div class="time-box">
-            <span id="seconds">00</span>
-            <small>Seg</small>
-        </div>
+        <div class="time-box"><span id="days">00</span><small>Días</small></div>
+        <div class="time-box"><span id="hours">00</span><small>Horas</small></div>
+        <div class="time-box"><span id="minutes">00</span><small>Min</small></div>
+        <div class="time-box"><span id="seconds">00</span><small>Seg</small></div>
     </div>
 
     <div class="buttons">
@@ -201,11 +203,9 @@ button:hover{
     </div>
 </div>
 
-<svg class="wave" viewBox="0 0 1440 320">
-<path fill="#003566" fill-opacity="1"
-d="M0,224L60,197.3C120,171,240,117,360,122.7C480,128,600,192,720,213.3C840,235,960,213,1080,186.7C1200,160,1320,128,1380,112L1440,96V320H0Z">
-</path>
-</svg>
+<div class="wave-container">
+    <div class="wave" id="wave"></div>
+</div>
 
 <audio id="music" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_5e4bfe63b3.mp3?filename=romantic-love-ambient-124003.mp3" type="audio/mp3">
@@ -214,73 +214,10 @@ d="M0,224L60,197.3C120,171,240,117,360,122.7C480,128,600,192,720,213.3C840,235,9
 <script>
 const noBtn = document.getElementById("no");
 const music = document.getElementById("music");
+const wave = document.getElementById("wave");
 
 document.body.addEventListener("click", () => {
     music.play().catch(()=>{});
 });
 
-noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 150);
-    const y = Math.random() * (window.innerHeight - 150);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-});
-
-noBtn.addEventListener("click", accept);
-
-/* COUNTDOWN COMPLETO */
-function updateCountdown(){
-    const target = new Date("February 14, 2026 00:00:00").getTime();
-    const now = new Date().getTime();
-    const diff = target - now;
-
-    if(diff <= 0){
-        document.querySelector(".countdown").innerHTML = 
-        "<h2>🌊 Es hoy, Linda 💙</h2>";
-        return;
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("days").innerText = days;
-    document.getElementById("hours").innerText = hours;
-    document.getElementById("minutes").innerText = minutes;
-    document.getElementById("seconds").innerText = seconds;
-}
-
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-/* CORAZONES */
-function createHeart(){
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.style.left = Math.random()*100 + "vw";
-    heart.innerHTML = "💖";
-    document.body.appendChild(heart);
-    setTimeout(()=>{heart.remove();},6000);
-}
-setInterval(createHeart,1000);
-
-function accept(){
-    document.body.innerHTML = `
-        <div class="stars"></div>
-        <div class="final">
-            <h1>🏄‍♀️💙 Entonces es oficial, Linda...</h1>
-            <p style="font-size:22px; max-width:650px; margin:auto;">
-                Este 14 de febrero será nuestro atardecer,  
-                nuestra risa frente al mar,  
-                y la primera de muchas olas juntos 🌊✨
-            </p>
-        </div>
-    `;
-    music.play();
-}
-</script>
-
-</body>
-</html>
-
+/* OLA IN*
