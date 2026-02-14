@@ -15,6 +15,13 @@ body{
     text-align:center;
 }
 
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
+}
+
 #overlay{
     position:absolute;
     top:0;
@@ -27,11 +34,13 @@ body{
     align-items:center;
     background:rgba(0,0,0,0.3);
     z-index:10;
+    padding:20px;
 }
 
 h1{
-    font-size:40px;
+    font-size:42px;
     text-shadow:0 0 20px #00b4d8;
+    margin-bottom:10px;
 }
 
 p{
@@ -42,7 +51,9 @@ p{
 .countdown{
     display:flex;
     gap:20px;
-    margin:20px;
+    margin:25px;
+    flex-wrap:wrap;
+    justify-content:center;
 }
 
 .time-box{
@@ -50,6 +61,7 @@ p{
     padding:15px;
     border-radius:15px;
     min-width:70px;
+    backdrop-filter:blur(10px);
 }
 
 .time-box span{
@@ -72,6 +84,10 @@ button{
     background:#00b4d8;
     color:white;
     box-shadow:0 0 20px #00b4d8;
+}
+
+#yes:hover{
+    transform:scale(1.1);
 }
 
 #no{
@@ -115,7 +131,7 @@ button{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
-// ================= 3D WAVE =================
+// ================= 3D OLA =================
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({antialias:true});
@@ -169,7 +185,7 @@ window.addEventListener('resize',()=>{
     renderer.setSize(window.innerWidth,window.innerHeight);
 });
 
-// ================= COUNTDOWN =================
+// ================= CUENTA REGRESIVA =================
 function updateCountdown(){
     const target = new Date("February 14, 2026 00:00:00").getTime();
     const now = new Date().getTime();
@@ -195,13 +211,35 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown,1000);
 
-// ================= BUTTONS =================
+// ================= BOTONES =================
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const message = document.getElementById("message");
 
 yesBtn.addEventListener("click",()=>{
-    message.innerHTML = "💙 Sabía que dirías que sí... eres mi ola perfecta 🌊";
+    message.innerHTML = "💙 Sabía que dirías que sí... eres mi ola perfecta 🌊✨";
+});
+
+// Botón que se escapa
+noBtn.style.position = "absolute";
+
+function moveButton(){
+    const padding = 100;
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+noBtn.addEventListener("mouseover", moveButton);
+
+noBtn.addEventListener("touchstart", function(e){
+    e.preventDefault();
+    moveButton();
 });
 
 noBtn.addEventListener("click",()=>{
