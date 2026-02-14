@@ -37,7 +37,7 @@ body{
 .container{
     position:relative;
     z-index:2;
-    margin-top:90px;
+    margin-top:80px;
     padding:20px;
     animation:fadeIn 2s ease-in;
 }
@@ -69,13 +69,37 @@ p{
     line-height:1.8;
 }
 
+/* COUNTDOWN */
 .countdown{
-    margin-top:25px;
-    font-size:22px;
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+.time-box{
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    padding:15px 20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(255,46,99,0.4);
+    min-width:70px;
+}
+
+.time-box span{
+    display:block;
+    font-size:28px;
     font-weight:600;
     color:#ff8fab;
 }
 
+.time-box small{
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+/* BOTONES */
 .buttons{
     margin-top:40px;
     position:relative;
@@ -110,7 +134,7 @@ button:hover{
     transform:scale(1.1);
 }
 
-/* OLAS SVG */
+/* OLAS */
 .wave{
     position:absolute;
     bottom:0;
@@ -146,13 +170,30 @@ button:hover{
     <h1>🌊 Linda 💙</h1>
 
     <p>
-        No sé en qué momento te convertiste en mi ola favorita…  
-        pero desde que llegaste, todo tiene más luz 🌅  
-        Y este 14 de febrero quiero que el mar sea testigo  
-        de una historia que seguira corriendo como una ola larga en Chicama que nunca acabara.
+        Desde que llegaste a mi vida, cada día se siente como 
+        encontrar la ola perfecta al atardecer 🌅  
+        Y este 14 de febrero no quiero surfear solo…
+        quiero que nuestras almas fluyan como el océano.
     </p>
 
-    <div class="countdown" id="countdown"></div>
+    <div class="countdown">
+        <div class="time-box">
+            <span id="days">00</span>
+            <small>Días</small>
+        </div>
+        <div class="time-box">
+            <span id="hours">00</span>
+            <small>Horas</small>
+        </div>
+        <div class="time-box">
+            <span id="minutes">00</span>
+            <small>Min</small>
+        </div>
+        <div class="time-box">
+            <span id="seconds">00</span>
+            <small>Seg</small>
+        </div>
+    </div>
 
     <div class="buttons">
         <button id="yes" onclick="accept()">Sí acepto 🌊💙</button>
@@ -160,7 +201,6 @@ button:hover{
     </div>
 </div>
 
-<!-- OLAS -->
 <svg class="wave" viewBox="0 0 1440 320">
 <path fill="#003566" fill-opacity="1"
 d="M0,224L60,197.3C120,171,240,117,360,122.7C480,128,600,192,720,213.3C840,235,960,213,1080,186.7C1200,160,1320,128,1380,112L1440,96V320H0Z">
@@ -179,7 +219,6 @@ document.body.addEventListener("click", () => {
     music.play().catch(()=>{});
 });
 
-// botón travieso
 noBtn.addEventListener("mouseover", () => {
     const x = Math.random() * (window.innerWidth - 150);
     const y = Math.random() * (window.innerHeight - 150);
@@ -189,20 +228,33 @@ noBtn.addEventListener("mouseover", () => {
 
 noBtn.addEventListener("click", accept);
 
-// cuenta regresiva
+/* COUNTDOWN COMPLETO */
 function updateCountdown(){
     const target = new Date("February 14, 2026 00:00:00").getTime();
     const now = new Date().getTime();
     const diff = target - now;
 
-    const days = Math.floor(diff / (1000*60*60*24));
-    document.getElementById("countdown").innerHTML =
-    "Faltan " + days + " días para nuestra ola perfecta 💘";
-}
-updateCountdown();
-setInterval(updateCountdown, 60000);
+    if(diff <= 0){
+        document.querySelector(".countdown").innerHTML = 
+        "<h2>🌊 Es hoy, Linda 💙</h2>";
+        return;
+    }
 
-// corazones
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* CORAZONES */
 function createHeart(){
     const heart = document.createElement("div");
     heart.classList.add("heart");
@@ -213,7 +265,6 @@ function createHeart(){
 }
 setInterval(createHeart,1000);
 
-// aceptar
 function accept(){
     document.body.innerHTML = `
         <div class="stars"></div>
