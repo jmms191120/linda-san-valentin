@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linda 💙 Nuestra Ola Perfecta</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(to top, #001f3f, #003366);
+    color:white;
+    text-align:center;
+}
+
+/* ESTRELLAS */
+.stars{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: transparent url('https://www.transparenttextures.com/patterns/stardust.png');
+    animation: moveStars 60s linear infinite;
+    z-index:0;
+}
+
+@keyframes moveStars{
+    from{background-position:0 0;}
+    to{background-position:1000px 1000px;}
+}
+
+/* CONTENIDO */
+.contenido{
+    position:relative;
+    z-index:2;
+    margin-top:100px;
+    padding:20px;
+    animation: fadeIn 2s ease-in;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h1{
+    font-size:42px;
+    font-weight:600;
+}
+
+p{
+    font-size:20px;
+    max-width:650px;
+    margin:auto;
+    line-height:1.7;
+}
+
+.botones{
+    margin-top:40px;
+    position:relative;
+    height:200px;
+}
+
+button{
+    padding:15px 35px;
+    font-size:18px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    position:absolute;
+    transition:0.3s;
+    font-weight:600;
+}
+
+#si{
+    background:#ff2e63;
+    color:white;
+    left:30%;
+    box-shadow:0 0 20px #ff2e63;
+}
+
+#no{
+    background:white;
+    color:#003366;
+    left:55%;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+/* OLAS */
+.wave{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:200%;
+    height:180px;
+    background:url("https://i.ibb.co/wQZVxxk/wave.png");
+    background-size:1000px 180px;
+    animation:wave 10s linear infinite;
+    opacity:0.5;
+}
+
+.wave2{
+    animation:wave 15s linear infinite reverse;
+    opacity:0.3;
+    bottom:20px;
+}
+
+@keyframes wave{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+}
+
+.final{
+    margin-top:150px;
+    animation:fadeIn 2s ease-in;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div class="contenido">
+    <h1>🌊 Linda 💙</h1>
+
+    <p>
+        Desde que llegaste a mi vida, cada día se siente como 
+        encontrar la ola perfecta al atardecer 🌅  
+        Y este 14 de febrero no quiero surfear solo…
+        quiero que nuestras almas fluyan como el océano.
+    </p>
+
+    <p style="margin-top:20px;">
+        Prometo risas bajo las estrellas ✨  
+        miradas que hablen sin palabras  
+        y un recuerdo que quede grabado
+        en la arena y en el corazón 🏄‍♂️💘
+    </p>
+
+    <div class="botones">
+        <button id="si" onclick="aceptar()">Sí acepto 🌊💙</button>
+        <button id="no">No acepto 🙈</button>
+    </div>
+</div>
+
+<div class="wave"></div>
+<div class="wave wave2"></div>
+
+<audio id="musica" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_5e4bfe63b3.mp3?filename=romantic-love-ambient-124003.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const botonNo = document.getElementById("no");
+const musica = document.getElementById("musica");
+
+document.body.addEventListener("click", () => {
+    musica.play().catch(()=>{});
+});
+
+botonNo.addEventListener("mouseover", function(){
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
+    botonNo.style.left = x + "px";
+    botonNo.style.top = y + "px";
+});
+
+botonNo.addEventListener("click", function(){
+    aceptar();
+});
+
+function aceptar(){
+    document.body.innerHTML = `
+        <div class="stars"></div>
+        <div class="final">
+            <h1>🏄‍♀️💙 Sabía que dirías que sí, Linda...</h1>
+            <p style="font-size:22px; max-width:650px; margin:auto;">
+                Este 14 de febrero será nuestro atardecer especial 🌅  
+                donde el mar será testigo  
+                de una historia que apenas comienza.
+            </p>
+        </div>
+    `;
+    musica.play();
+}
+</script>
+
+</body>
+</html>
